@@ -1,4 +1,4 @@
-function solve(io)
+function solve1(io)
     total = 0
     for line in eachline(io)
         lineval = ""
@@ -28,10 +28,10 @@ function solve2(io)
     for line in eachline(io)
         lineval = ""
         matches = findall(r"(?|[1-9]|zero|one|two|three|four|five|six|seven|eight|nine)", line, overlap=true)
-        for m in matches
+        for m in [matches[1], matches[end]]
             length(m) == 1 ? lineval *= line[m] : lineval *= numberdict[line[m]]
         end
-        total += parse(Int, lineval[1] * lineval[end])
+        total += parse(Int, lineval)
     end
     total
 end
