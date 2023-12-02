@@ -59,5 +59,5 @@ function solve2(io)
     power
 end
 
-solve1("data/01in.txt")
-solve2("data/01in.txt")
+solve1("data/02in.txt")
+solve2("data/02in.txt")
