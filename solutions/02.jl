@@ -10,22 +10,21 @@ function solve1(io)
 
     for line in eachline(io)
         invalid = false
-        id, game = split(line,": ")
-        for turn in split(game,"; ")
+        id, game = split(line, ": ")
+        for turn in split(game, "; ")
             invalid && break
-            draws = split(turn,", ")
-            for draw in draws
+            for draw in split(turn, ", ")
                 invalid && break
-                num,col = split(draw," ")
-                if parse(Int,num) > colordict[col]
+                num, col = split(draw, " ")
+                if parse(Int, num) > colordict[col]
                     invalid = true
                     break
                 end
             end
         end
-        if !invalid 
-           _, idval = split(id," ")
-           possible += parse(Int,idval)
+        if !invalid
+            _, idval = split(id, " ")
+            possible += parse(Int, idval)
         end
     end
     possible
@@ -35,7 +34,7 @@ end
 function solve2(io)
     power = 0
 
-        colordict = Dict(
+    colordict = Dict(
         "red" => 0,
         "green" => 0,
         "blue" => 0
@@ -48,17 +47,14 @@ function solve2(io)
         colordict["green"] = 0
         colordict["blue"] = 0
 
-        id, game = split(line,": ")
-        for turn in split(game,"; ")
-            draws = split(turn,", ")
-            for draw in draws
-                num,col = split(draw," ")
-                colordict[col] = max(colordict[col],parse(Int,num))
+        id, game = split(line, ": ")
+        for turn in split(game, "; ")
+            for draw in split(turn, ", ")
+                num, col = split(draw, " ")
+                colordict[col] = max(colordict[col], parse(Int, num))
             end
         end
-
-        power += colordict["red"]* colordict["green"]*colordict["blue"]
-
+        power += colordict["red"] * colordict["green"] * colordict["blue"]
     end
     power
 end
