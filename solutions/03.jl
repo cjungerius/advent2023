@@ -9,9 +9,11 @@ function solve1(io)
             above, adjacent, below = (false, false, false)
             leftbound = n[1] > 1 ? n[1] - 1 : n[1]
             rightbound = n[end] < l ? n[end] + 1 : n[end]
+
             i > 1 && (above = match(r"([^0-9\.])",m[i-1][leftbound:rightbound]) !== nothing)
             adjacent = match(r"([^0-9\.])",m[i][leftbound:rightbound]) !== nothing
             i < length(m) && (below = match(r"([^0-9\.])",m[i+1][leftbound:rightbound]) !== nothing)
+            
             any([above,adjacent,below]) && (partnum += parse(Int,m[i][n]))
         end
     end
@@ -21,7 +23,6 @@ end
 
 function solve2(io)
     m = readlines(io)
-    l = length(m[1])
     gearratios = 0
     for i in eachindex(m)
         gears = findall("*",m[i])
@@ -48,16 +49,5 @@ function solve2(io)
     gearratios
 end
 
-
-
-
-#spec_chars = findall(r"([^0-9\.])", m[i])
-# for c in spec_chars
-#     loc = c[1]
-#     isnumeric(m[i][loc-1]) && println(split(m[i][loc-3:loc-1],".")[end])
-#     isnumeric(m[i][loc+1]) && println(split(m[i][loc+1:loc+3],".")[1])
-
-#     any(i -> isnumeric(i), m[i-1][loc-1:loc+1]) && println("number found!")
-#     any(i -> isnumeric(i), m[i+1][loc-1:loc+1]) && println("number found!")
-# end
-
+solve1("data/03in.txt")
+solve2("data/03in.txt")
