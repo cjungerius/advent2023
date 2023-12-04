@@ -3,7 +3,7 @@ function solve1(io)
     for line in eachline(io)
         lineval = ""
         for c in line
-            isnumeric(c) && (lineval *= c)
+            if isnumeric(c) lineval *= c end
         end
         total += parse(Int, lineval[1] * lineval[end])
     end

@@ -12,9 +12,9 @@ function solve1(io)
         invalid = false
         id, game = split(line, ": ")
         for turn in split(game, "; ")
-            invalid && break
+            if invalid break end
             for draw in split(turn, ", ")
-                invalid && break
+                if invalid break end
                 num, col = split(draw, " ")
                 if parse(Int, num) > colordict[col]
                     invalid = true
@@ -39,7 +39,6 @@ function solve2(io)
         "green" => 0,
         "blue" => 0
     )
-
 
     for line in eachline(io)
 
