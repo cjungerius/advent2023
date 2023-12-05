@@ -10,11 +10,11 @@ function solve1(io)
             leftbound = n[1] > 1 ? n[1] - 1 : n[1]
             rightbound = n[end] < l ? n[end] + 1 : n[end]
 
-            i > 1 && (above = match(r"([^0-9\.])",m[i-1][leftbound:rightbound]) !== nothing)
+            if i > 1 above = match(r"([^0-9\.])",m[i-1][leftbound:rightbound]) !== nothing end
             adjacent = match(r"([^0-9\.])",m[i][leftbound:rightbound]) !== nothing
-            i < length(m) && (below = match(r"([^0-9\.])",m[i+1][leftbound:rightbound]) !== nothing)
+            if i < length(m) below = match(r"([^0-9\.])",m[i+1][leftbound:rightbound]) !== nothing end
             
-            any([above,adjacent,below]) && (partnum += parse(Int,m[i][n]))
+            if any([above,adjacent,below]) partnum += parse(Int,m[i][n]) end
         end
     end
     partnum

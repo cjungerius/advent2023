@@ -7,9 +7,9 @@ function solve1(io)
         winning = parse.(Int,split(l))
         have = parse.(Int,split(r))
         for n in have
-            n in winning && (matches += 1)
+            matches += n in winning
         end
-        matches > 0 && (total += 2^(matches-1))
+        if matches > 0 total += 2^(matches-1) end
     end
     total
 end
@@ -27,7 +27,7 @@ function solve2(io)
         have = parse.(Int,split(r))
         
         for n in have
-            n in winning && (matches += 1)
+            matches += n in winning
         end
         
         if matches > 0
