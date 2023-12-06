@@ -16,9 +16,9 @@ end
 
 function race_poly(time,distance)
     # find all solutions where x(t-x) > d:
-    # in other words, where -x^2+tx-d > 0 or x^2 -tx + d > 0
+    # in other words, where -x^2+tx-d > 0 or x^2 -tx + d < 0
     # concave, so find both intersects with 0 using discriminant rule
-    discr = time^2-4*distance # b^2 - 4ac
+    discr = time^2-4*distance # b^2 - 4ac ((-b)^2 == b^2)
     sol1 = (time + sqrt(discr))/2
     sol2 = (time - sqrt(discr))/2
     return ceil(sol1) - floor(sol2) - 1 # all solutions BETWEEN the two intersects
@@ -26,7 +26,6 @@ end
 
 
 function solve1(io)
-
     input = readlines(io)
     times = parse.(Int,split(input[1])[2:end])
     distances = parse.(Int,split(input[2])[2:end])
@@ -45,3 +44,6 @@ function solve2(io)
    
     race_poly(time,distance)
 end
+
+solve1("data/06in.txt")
+solve2("data/06in.txt")
