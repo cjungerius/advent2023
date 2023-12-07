@@ -4,23 +4,23 @@ function handrate(hand)
     jcount = count(==(1), hand)
     cardcounts = sort!(counts(hand, 2:14), rev=true)
 
-    if cardcounts[1] == 5 || jcount == 5 || jcount + cardcounts[1] == 5
+    if jcount + cardcounts[1] == 5
         #five of a kind
         return 6
-    elseif cardcounts[1] == 4 || jcount == 4 || jcount + cardcounts[1] == 4
+    elseif jcount + cardcounts[1] == 4
         #four of a kind
         return 5
-    elseif (cardcounts[1] == 3 && cardcounts[2] == 2) || (jcount + cardcounts[1] == 3 && cardcounts[2] == 2)
+    elseif jcount + cardcounts[1] == 3 && cardcounts[2] == 2
         #full house
         return 4
-    elseif cardcounts[1] == 3 || jcount == 3 || cardcounts[1] + jcount == 3
+    elseif jcount + cardcounts[1] == 3
         #three of a kind
         return 3
     elseif cardcounts[1] == 2 && cardcounts[2] == 2
         #two pair
         return 2
-    elseif cardcounts[1] == 2 || jcount == 2 || cardcounts[1] + jcount == 2
         #one pair
+    elseif jcount + cardcounts[1] == 2
         return 1
     else
         #high card
