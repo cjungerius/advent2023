@@ -9,7 +9,7 @@ function solve(io)
         starts = Int[obs[1]]
         ends = Int[obs[end]]
 
-        while !all(y->y==obs[1],obs)            
+        while !all(==(0),obs)            
             obs = diff(obs)
             push!(starts,obs[1])
             push!(ends,obs[end])
