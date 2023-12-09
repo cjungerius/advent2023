@@ -6,13 +6,13 @@ function solve(io)
     for line in eachline(io)
         obs = parse.(Int,split(line))
         
-        starts = Int[obs[1]]
-        ends = Int[obs[end]]
+        starts = Int[]
+        ends = Int[]
 
         while !all(==(0),obs)            
-            obs = diff(obs)
             push!(starts,obs[1])
             push!(ends,obs[end])
+            obs = diff(obs)
         end
 
         push!(prevvals,foldr(-,starts))
