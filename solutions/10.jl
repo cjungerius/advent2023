@@ -69,7 +69,6 @@ function solve2(io)
 
     crossing = 0
     insidearea = 0
-    crossingstart = ' '
     sconvert = ' '
 
     # if firstdir is up or down and lastdir is up or down, then convert 'S' to '|'
@@ -97,17 +96,7 @@ function solve2(io)
                     c = sconvert
                 end
 
-                if c == '-'
-                    continue
-                elseif c == '|'
-                    crossing += 1
-                elseif c == 'L'
-                    crossingstart = 'L'
-                elseif c == 'F'
-                    crossingstart = 'F'
-                elseif c == '7' && crossingstart == 'L'
-                    crossing += 1
-                elseif c == 'J' && crossingstart == 'F'
+                if c in ['|','L','J']
                     crossing += 1
                 end
             else
