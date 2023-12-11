@@ -30,19 +30,18 @@ function solve(io, expansion = 2)
 
     pairdist = 0
 
+    distdict = Dict{Tuple{Int,Int},Tuple{Int,Int}}()
+
+    for coords in galaxylist
+        rowsum = sum(distancemat[1:coords[1],coords[2]])
+        colsum = sum(distancemat[coords[1],1:coords[2]])
+        distdict[coords] = (rowsum, colsum)
+    end
+
     for (a, b) in combinations(galaxylist, 2)
-        row1, row2 = a[1], b[1]
-        col1, col2 = a[2], b[2]
 
-        if row1 > row2
-            row1, row2 = row2, row1
-        end
+        pairdist += sum(abs.(distdict[a] .- distdict[b]))
 
-        if col1 > col2
-            col1, col2 = col2, col1
-        end
-
-        pairdist += sum(distancemat[row1:row2, a[2]]) + sum(distancemat[a[1], col1:col2]) - 2
     end
     pairdist
 end
