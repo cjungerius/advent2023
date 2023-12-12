@@ -1,36 +1,13 @@
-function stepthroughstring(pattern, str)
 
-    if match(pattern, str) === nothing
-        return 0
+function solvefast(io,parttwo=false)
+
+    memo = Dict([])
+
+    function testgroups(str, groups::Vector{Int}, g_idx=0, counter=0)
+
+    if haskey(memo, (str,counter,g_idx)) 
+        return memo[(str,counter,g_idx)]
     end
-
-    i = findfirst("?", str)
-
-    if i === nothing
-        return 1
-    else
-        return stepthroughstring(pattern, replace(str, "?" => "#", count = 1)) + stepthroughstring(pattern, replace(str, "?" => ".", count = 1))
-    end
-end
-
-function testmatches(str, groups::Vector{Int})
-
-    p = raw"^[\.\?]*"
-    e = groups[end]
-    for g in groups[1:end-1]
-        p *= raw"[#\?]" * "{$g}" * raw"[\.\?]+"
-    end
-    p *= raw"[#\?]" * "{$e}" * raw"[\.\?]*$"
-
-    pattern = Regex(p)
-
-    stepthroughstring(pattern, str)
-end
-
-function testgroups(str, groups::Vector{Int}, g_idx=0, counter=0)
-
-    #count('#',str) > sum(groups) && return 0
-    #count('#',str) + count('?',str) < sum(groups) && return 0
 
     for (i, x) in enumerate(str)
         if x == '#'
@@ -50,7 +27,11 @@ function testgroups(str, groups::Vector{Int}, g_idx=0, counter=0)
             elseif g_idx > 0 && counter == groups[g_idx]
                 counter = 0
             else
-                return testgroups("#" * str[i+1:end], groups, g_idx, counter) + testgroups("." * str[i+1:end], groups, g_idx, counter)
+                a = testgroups("#" * str[i+1:end], groups, g_idx, counter)
+                memo[("#" * str[i+1:end], counter, g_idx)] = a
+                b = testgroups("." * str[i+1:end], groups, g_idx, counter)
+                memo[("." * str[i+1:end], counter, g_idx)] = b
+                return a+b
             end
         end
     end
@@ -62,23 +43,6 @@ function testgroups(str, groups::Vector{Int}, g_idx=0, counter=0)
     end
 end
 
-function solve(io, parttwo = false)
-
-    countsum = 0
-    for line in eachline(io)
-        str, nums = split(line, " ")
-        nums = parse.(Int, split(nums, ","))
-        countsum += testmatches(str, nums)
-    end
-
-    countsum
-end
-
-
-
-
-function solvefast(io,parttwo=false)
-
     countsum = 0
     for (i,line) in enumerate(eachline(io))
         str, nums = split(line, " ")
@@ -88,8 +52,8 @@ function solvefast(io,parttwo=false)
             str = (str * "?")^4 * str
             nums = repeat(nums, 5)
         end
+        memo = Dict([])
         countsum += testgroups(str, nums)
-        println("Line $i done!")
     end
 
     countsum
