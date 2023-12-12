@@ -27,13 +27,10 @@ function testmatches(str, groups::Vector{Int})
     stepthroughstring(pattern, str)
 end
 
-function testgroups(str, groups::Vector{Int})
+function testgroups(str, groups::Vector{Int}, g_idx=0, counter=0)
 
     #count('#',str) > sum(groups) && return 0
     #count('#',str) + count('?',str) < sum(groups) && return 0
-
-    counter = 0
-    g_idx = 0
 
     for (i, x) in enumerate(str)
         if x == '#'
@@ -53,7 +50,7 @@ function testgroups(str, groups::Vector{Int})
             elseif g_idx > 0 && counter == groups[g_idx]
                 counter = 0
             else
-                return testgroups(str[1:i-1] * "#" * str[i+1:end], groups) + testgroups(str[1:i-1] * "." * str[i+1:end], groups)
+                return testgroups("#" * str[i+1:end], groups, g_idx, counter) + testgroups("." * str[i+1:end], groups, g_idx, counter)
             end
         end
     end
