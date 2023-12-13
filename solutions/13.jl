@@ -63,7 +63,7 @@ function findreflection_smudge(pattern)
         maxsize = min(row, n-row)
         for (i,rowrefl) in enumerate(row+1:row+maxsize)
             if p[row+1-i,:] != p[rowrefl,:]
-                if sum(p[row+1-i,:]) - sum(p[rowrefl,:]) == 1 && !smudge_used
+                if sum(xor.(p[row+1-i,:],p[rowrefl,:])) == 1 && !smudge_used
                     smudge_used = true
                     continue
                 end
@@ -78,16 +78,21 @@ function findreflection_smudge(pattern)
     end
 
     for col in 1:m-1
-
+        smudge_used = false
         colsym = true
         maxsize = min(col, m-col)
         for (i, colrefl) in enumerate(col+1:col+maxsize)
             if p[:, col+1-i] != p[:, colrefl]
+                if sum(xor.(p[:, col+1-i], p[:, colrefl])) == 1 && !smudge_used
+                    println("smudge used")
+                    smudge_used = true
+                    continue
+                end
                 colsym = false
                 break
             end
         end
-        if colsym
+        if colsym && smudge_used
             return col, 0
             break
         end
@@ -95,7 +100,7 @@ function findreflection_smudge(pattern)
     0, 0
 end
 
-function solve(io)
+function solve(io, parttwo=false)
     pattern = []
     colnum = 0
     rownum = 0
@@ -104,13 +109,13 @@ function solve(io)
         if length(line) > 0
             push!(pattern, line)
         else
-            c,r = findreflection(pattern)
+            c,r = parttwo ? findreflection(pattern) : findreflection_smudge(pattern)
             colnum += c
             rownum += r
             pattern = []
         end
     end
-    c,r = findreflection(pattern)
+    c,r = parttwo ? findreflection(pattern) : findreflection_smudge(pattern)
     colnum += c
     rownum += r
 
